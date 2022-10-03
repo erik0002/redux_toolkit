@@ -19,7 +19,10 @@ export const fetchCartData = () => {
 
         try {
             const cartData = await fetchData();
-            dispatch(cartActions.replaceCart(cartData))
+            dispatch(cartActions.replaceCart({
+                items: cartData.items || [],
+                totalQuantity: cartData.totalQuantity
+            }))
             dispatch(
                 uiActions.showNotifications({
                     status: 'success',
@@ -54,7 +57,10 @@ export const sendCartData = (cart) => {
                 'https://redux-toolkit-1111b-default-rtdb.europe-west1.firebasedatabase.app/car.json',
                 {
                     method: 'PUT',
-                    body: JSON.stringify(cart),
+                    body: JSON.stringify({
+                        items: cart.items,
+                        totalQuantity: cart.totalQuantity,
+                    }),
                 }
             );
 
